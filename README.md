@@ -27,16 +27,16 @@ This project is a book exchange platform where users can list books they want to
 ## Installation
 
 1. Clone the repository:
-   git clone [repository-url]
+     git clone https://github.com/pcell62/book-store.git
 
 2. Install dependencies:
-   npm install
+     npm install
 
 3. Set up config.js in backend
-   add MongoDB URL and Port
+     add MongoDB URL and Port
 
 4. Start the server:
-   npm run dev in both backend and frontend folder
+     npm run dev in both backend and frontend folder
 
 ## Usage
 
