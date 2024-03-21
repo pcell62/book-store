@@ -10,7 +10,7 @@ const Navbar = () => {
     logout();
   };
   return (
-    <div className="flex p-4 shadow-lg bg-slate-200 items-center justify-between">
+    <div className="flex p-4 shadow-sm bg-gradient-to-r from-cyan-500 to-yellow-500 items-center justify-between border-b rounded-br-lg rounded-bl-lg">
       <Link to="/">
         <div className="text-2xl font-bold">Book Store</div>
       </Link>

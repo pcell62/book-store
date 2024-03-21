@@ -126,10 +126,10 @@ const Home = () => {
         <h1 className="text-3xl my-8">Books added by you</h1>
         <Link
           to="/books/create"
-          className=" bg-slate-400 rounded-2xl hover:bg-slate-500 hover:p-2 transition duration-500 ease-in-out"
+          className=" bg-blue-400 rounded-xl hover:bg-blue-800 hover:p-2 transition duration-500 ease-in-out p-1 border border-red-700 hover:text-white"
         >
           <div className="flex items-center">
-            <MdOutlineAddBox className="text-sky-800 text-5xl" />
+            <MdOutlineAddBox className=" text-5xl " />
             <div className="text-lg font-serif">Add Book</div>
           </div>
         </Link>

@@ -13,7 +13,7 @@ import InterestBook from "./pages/InterestBook";
 
 const App = () => {
   return (
-    <div>
+    <div className="bg-gradient-to-r from-white to-gray-600 h-screen">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
