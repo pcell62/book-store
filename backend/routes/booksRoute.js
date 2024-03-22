@@ -11,7 +11,6 @@ import {
 } from "../controllers/bookControllers.js";
 
 import { requireAuth } from "../middleware/requireAuth.js";
-import { postNotification } from "../controllers/notifControllers.js";
 
 const router = express.Router();
 
@@ -20,7 +19,6 @@ router.use(requireAuth);
 router.post("/", saveBook);
 router.get("/allbooks", getBooksAll);
 router.get("/", getBooks);
-router.post("/notification/:id", postNotification);
 
 router.get("/interest", getBooksByUserInterest);
 
