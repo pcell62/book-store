@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import BookModal from "../home/BookModal";
 
-const BookSingleCardAll = ({ book }) => {
+const IntSingleCard = ({ book }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -36,7 +36,15 @@ const BookSingleCardAll = ({ book }) => {
         </div>
         <div className="flex justify-start items-center gap-x-2">
           <BiUserCircle className="text-blue-300 text-2xl" />
-          <h2 className="my-1 space-y-2">Entry Created By: {book.createdBy}</h2>
+          <h2 className="my-1 space-y-2">
+            <div>Entry Created By:</div>
+            <Link
+              to={`/user/${book.user_id}`}
+              className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-500 rounded shadow ripple hover:shadow-lg hover:bg-blue-600 focus:outline-none"
+            >
+              {book.createdBy}
+            </Link>
+          </h2>
         </div>
         <div className="flex justify-start items-center gap-x-2">
           <MdOutlineNumbers className="text-red-300 text-2xl" />
@@ -49,10 +57,6 @@ const BookSingleCardAll = ({ book }) => {
             className="text-3xl text-blue-800 hover:text-black cursor-pointer mr-2"
             onClick={() => setShowModal(true)}
           />
-
-          <Link to={`/books/interest/${book._id}`}>
-            <BiSolidHappy className="text-2xl text-red-600 hover:text-black" />
-          </Link>
         </div>
         {showModal && (
           <BookModal book={book} onClose={() => setShowModal(false)} />
@@ -62,4 +66,4 @@ const BookSingleCardAll = ({ book }) => {
   );
 };
 
-export default BookSingleCardAll;
+export default IntSingleCard;

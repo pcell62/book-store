@@ -13,7 +13,7 @@ const requireAuth = async (req, res, next) => {
 
   try {
     const { _id } = jwt.verify(token, JWT_SECRET);
-    req.user = await User.findOne({ _id }).select("_id name");
+    req.user = await User.findOne({ _id }).select("_id name email");
     next();
   } catch (error) {
     console.log(error);

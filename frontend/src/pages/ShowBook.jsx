@@ -13,7 +13,7 @@ const ShowBook = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/");
     }
     setLoading(true);
     axios
@@ -33,7 +33,7 @@ const ShowBook = () => {
   }, [user]);
 
   return (
-    <div className="p-4">
+    <div className="p-4 h-screen">
       <BackButton />
       <h1 className="text-3xl my-4">Show Book</h1>
       {loading ? (

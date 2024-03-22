@@ -19,7 +19,7 @@ const CreateBooks = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/");
     }
   }, [user]);
 
@@ -52,7 +52,7 @@ const CreateBooks = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 h-screen">
       <BackButton />
       <h1 className="text-3xl my-4">Create Book</h1>
       {loading ? <Spinner /> : ""}

@@ -20,7 +20,7 @@ const EditBook = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/");
     }
     setLoading(true);
     axios
@@ -73,7 +73,7 @@ const EditBook = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 h-screen">
       <BackButton />
       <h1 className="text-3xl my-4">Edit Book</h1>
       {loading ? <Spinner /> : ""}

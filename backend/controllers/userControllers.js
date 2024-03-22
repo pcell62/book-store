@@ -31,3 +31,15 @@ export const signupUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+export const getUserById = async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const ussr = await User.findById(id);
+
+    return response.status(200).json(ussr);
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+};

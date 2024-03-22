@@ -15,7 +15,7 @@ const DeleteBook = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/");
     }
   }, [user]);
 
@@ -41,7 +41,7 @@ const DeleteBook = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 h-screen">
       <BackButton />
       <h1 className="text-3xl my-4">Delete Book</h1>
       {loading ? <Spinner /> : ""}

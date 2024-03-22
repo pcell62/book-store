@@ -15,7 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/");
     }
     setLoading(true);
     if (user) {
@@ -60,7 +60,7 @@ const Home = () => {
   );
 
   return (
-    <div className="p-4">
+    <div className="p-4 h-screen">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl my-8">All Books</h1>
       </div>
