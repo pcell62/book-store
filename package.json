@@ -1,0 +1,11 @@
+{
+  "name": "book-store",
+  "version": "1.0.0",
+  "description": "This project is a book exchange platform where users can list books they want to sell, trade, or donate. It includes features such as creating, viewing, editing, and deleting book listings, as well as registering interest in a book.",
+  "main": "backend/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Priyanshu Kumar",
+  "license": "ISC"
+}
