@@ -24,7 +24,7 @@ const InterestBook = () => {
     setLoading(true);
     axios
       .put(
-        `http://localhost:5555/books/interest/${id}`,
+        `https://book-store-as2l.onrender.com/books/interest/${id}`,
         {},
         {
           headers: {

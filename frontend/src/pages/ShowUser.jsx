@@ -19,7 +19,7 @@ const ShowUser = () => {
     }
     setLoading(true);
     axios
-      .get(`http://localhost:5555/user/${id}`)
+      .get(`https://book-store-as2l.onrender.com/user/${id}`)
       .then((response) => {
         setussr(response.data);
         setLoading(false);

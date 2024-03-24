@@ -20,7 +20,7 @@ const Home = () => {
     setLoading(true);
     if (user) {
       axios
-        .get("http://localhost:5555/books/allbooks", {
+        .get("https://book-store-as2l.onrender.com/books/allbooks", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

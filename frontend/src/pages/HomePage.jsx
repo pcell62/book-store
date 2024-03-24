@@ -29,7 +29,7 @@ const Home = () => {
     setLoading(true);
     if (user) {
       axios
-        .get("http://localhost:5555/books", {
+        .get("https://book-store-as2l.onrender.com/books", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -52,7 +52,7 @@ const Home = () => {
     setLoading(true);
     if (user) {
       axios
-        .get("http://localhost:5555/books/interest", {
+        .get("https://book-store-as2l.onrender.com/books/interest", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

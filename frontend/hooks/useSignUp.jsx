@@ -14,11 +14,14 @@ export const useSignUp = () => {
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:5555/user/signup", {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://book-store-as2l.onrender.com/user/signup",
+        {
+          name,
+          email,
+          password,
+        }
+      );
 
       localStorage.setItem("user", JSON.stringify(response.data));
       dispatch({ type: "LOGIN", payload: response.data });

@@ -17,7 +17,7 @@ const ShowBook = () => {
     }
     setLoading(true);
     axios
-      .get(`http://localhost:5555/books/${id}`, {
+      .get(`https://book-store-as2l.onrender.com/books/${id}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
