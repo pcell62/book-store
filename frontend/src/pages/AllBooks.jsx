@@ -64,7 +64,7 @@ const Home = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl my-8">All Books</h1>
       </div>
-      <div className="flex justify-center gap-x-4 my-4">
+      <div className="flex justify-center gap-x-4 my-4 flex-col md:flex-row">
         <input
           type="text"
           value={titleSearch}
