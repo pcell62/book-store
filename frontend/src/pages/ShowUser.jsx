@@ -31,7 +31,7 @@ const ShowUser = () => {
   }, []);
 
   return (
-    <div className="p-4 h-full">
+    <div className="p-4 h-screen">
       <BackButton />
       <h1 className="text-3xl my-4">Show User</h1>
       {loading ? (
