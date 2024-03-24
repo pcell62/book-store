@@ -52,11 +52,11 @@ const CreateBooks = () => {
   };
 
   return (
-    <div className="p-4 h-screen">
+    <div className="p-4 h-full">
       <BackButton />
       <h1 className="text-3xl my-4">Create Book</h1>
       {loading ? <Spinner /> : ""}
-      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
+      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-full sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 mx-auto">
         <div className="my-4">
           <label className="text-xl mr-4 text-gray-500">Title</label>
           <input

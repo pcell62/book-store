@@ -60,7 +60,7 @@ const Home = () => {
   );
 
   return (
-    <div className="p-4 h-screen">
+    <div className="p-4 h-full">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl my-8">All Books</h1>
       </div>

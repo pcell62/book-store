@@ -33,7 +33,7 @@ const ShowBook = () => {
   }, [user]);
 
   return (
-    <div className="p-4 h-screen">
+    <div className="p-4 h-full">
       <BackButton />
       <h1 className="text-3xl my-4">Show Book</h1>
       {loading ? (

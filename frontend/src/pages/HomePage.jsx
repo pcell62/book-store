@@ -99,7 +99,7 @@ const Home = () => {
   );
 
   return (
-    <div className="p-4 h-screen">
+    <div className="p-4 h-full">
       <div className="flex justify-center gap-x-4 my-4 flex-col md:flex-row">
         <input
           type="text"
