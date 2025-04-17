@@ -6,12 +6,12 @@ import {
   sendMessage,
   markAsRead
 } from '../controllers/chatController.js';
-import { protect } from '../middleware/authMiddleware.js';
+import { requireAuth } from '../middleware/requireAuth.js';
 
 const router = express.Router();
 
 // All chat routes require authentication
-router.use(protect);
+router.use(requireAuth);
 
 // Get all chats for the logged-in user
 router.get('/', getUserChats);
