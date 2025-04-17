@@ -23,7 +23,7 @@ const ChatButton = ({ bookId, sellerId, sellerName }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/chats`,
+        `https://book-store-as2l.onrender.com/chats`,
         {
           bookId,
           recipientId: sellerId

@@ -19,7 +19,7 @@ const ChatPage = () => {
     const fetchChat = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chats/${chatId}`, {
+        const response = await axios.get(`https://book-store-as2l.onrender.com/chats/${chatId}`, {
           headers: {
             Authorization: `Bearer ${user.token}`
           }
@@ -29,7 +29,7 @@ const ChatPage = () => {
         
         // Mark messages as read
         await axios.patch(
-          `${import.meta.env.VITE_API_BASE_URL}/chats/${chatId}/read`,
+          `https://book-store-as2l.onrender.com/chats/${chatId}/read`,
           {},
           {
             headers: {
@@ -62,7 +62,7 @@ const ChatPage = () => {
 
     const pollInterval = setInterval(async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chats/${chatId}`, {
+        const response = await axios.get(`https://book-store-as2l.onrender.com/chats/${chatId}`, {
           headers: {
             Authorization: `Bearer ${user.token}`
           }
@@ -77,7 +77,7 @@ const ChatPage = () => {
           
           // Mark messages as read
           await axios.patch(
-            `${import.meta.env.VITE_API_BASE_URL}/chats/${chatId}/read`,
+            `https://book-store-as2l.onrender.com/chats/${chatId}/read`,
             {},
             {
               headers: {
@@ -101,7 +101,7 @@ const ChatPage = () => {
     try {
       setSending(true);
       await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/chats/${chatId}/messages`,
+        `https://book-store-as2l.onrender.com/chats/${chatId}/messages`,
         { content: message },
         {
           headers: {
@@ -111,7 +111,7 @@ const ChatPage = () => {
       );
 
       // Refresh chat data to show the new message
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chats/${chatId}`, {
+      const response = await axios.get(`https://book-store-as2l.onrender.com/chats/${chatId}`, {
         headers: {
           Authorization: `Bearer ${user.token}`
         }

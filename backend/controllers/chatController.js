@@ -6,13 +6,24 @@ import { Book } from '../models/bookModel.js';
 export const getUserChats = async (req, res) => {
   try {
     const userId = req.user._id;
+    console.log('Fetching chats for user:', userId);
+    
     const chats = await Chat.find({ participants: userId })
       .populate('participants', 'name email')
       .populate('book', 'title author')
       .sort({ lastUpdated: -1 });
     
+    console.log('Found chats:', chats);
+    
+    // Ensure we're always returning an array
+    if (!Array.isArray(chats)) {
+      console.error('Chat.find did not return an array, returning empty array instead');
+      return res.status(200).json([]);
+    }
+    
     res.status(200).json(chats);
   } catch (error) {
+    console.error('Error in getUserChats:', error);
     res.status(500).json({ message: 'Error fetching chats', error: error.message });
   }
 };

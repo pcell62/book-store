@@ -13,17 +13,30 @@ const ChatsPage = () => {
     const fetchChats = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chats`, {
+        console.log('Fetching chats with token:', user.token);
+        
+        // Use the same backend URL as other API calls in the app
+        const response = await axios.get(`https://book-store-as2l.onrender.com/chats`, {
           headers: {
             Authorization: `Bearer ${user.token}`
           }
         });
-        setChats(response.data);
+        console.log('API response:', response.data);
+        
+        // Ensure the data is an array
+        if (Array.isArray(response.data)) {
+          setChats(response.data);
+        } else {
+          console.error('API did not return an array:', response.data);
+          setChats([]);
+          setError('Invalid data format received from server');
+        }
         setLoading(false);
       } catch (err) {
         console.error('Error fetching chats:', err);
         setError('Failed to load chats. Please try again later.');
         setLoading(false);
+        setChats([]);
       }
     };
 
@@ -63,6 +76,18 @@ const ChatsPage = () => {
     );
   }
 
+  // Additional safety check
+  if (!Array.isArray(chats)) {
+    console.error('Chats is not an array:', chats);
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <p>There was a problem loading your chats. Please try again later.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Your Conversations</h1>
@@ -70,7 +95,7 @@ const ChatsPage = () => {
       {chats.length === 0 ? (
         <div className="bg-gray-100 p-6 rounded-lg text-center">
           <p className="text-gray-600">You don't have any conversations yet.</p>
-          <Link to="/books" className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded">
+          <Link to="/allbooks" className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded">
             Browse Books
           </Link>
         </div>
