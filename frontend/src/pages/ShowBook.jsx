@@ -26,6 +26,9 @@ const ShowBook = () => {
         },
       })
       .then((response) => {
+        console.log("Book data:", response.data);
+        console.log("Current user ID:", user._id);
+        console.log("Book user_id:", response.data.user_id);
         setBook(response.data);
         setLoading(false);
       })
@@ -76,13 +79,19 @@ const ShowBook = () => {
             <span>{new Date(book.updatedAt).toString()}</span>
           </div>
           
+          {/* Display seller info */}
+          <div className="my-4">
+            <span className="text-xl mr-4 text-gray-500">Seller</span>
+            <span>{book.createdBy}</span>
+          </div>
+          
           {/* Only show the chat button if the book belongs to another user */}
-          {book.user && book.user._id !== user._id && (
+          {book.user_id && book.user_id !== user._id && (
             <div className="my-4">
               <ChatButton 
                 bookId={book._id} 
-                sellerId={book.user._id} 
-                sellerName={book.user.name || 'Seller'}
+                sellerId={book.user_id} 
+                sellerName={book.createdBy || 'Seller'}
               />
             </div>
           )}
