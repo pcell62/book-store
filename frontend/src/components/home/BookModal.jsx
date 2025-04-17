@@ -3,8 +3,55 @@ import { PiBookOpenTextLight } from "react-icons/pi";
 import { BiUserCircle } from "react-icons/bi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { HiCurrencyDollar } from "react-icons/hi";
+import { BsChatDots } from "react-icons/bs";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 const BookModal = ({ book, onClose }) => {
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+  const [isStartingChat, setIsStartingChat] = useState(false);
+
+  const handleStartChat = async () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    // Don't start a chat with yourself
+    if (user._id === book.user_id) {
+      alert("You can't start a chat with yourself.");
+      return;
+    }
+
+    try {
+      setIsStartingChat(true);
+      const response = await axios.post(
+        `https://book-store-as2l.onrender.com/chats`,
+        {
+          bookId: book._id,
+          recipientId: book.user_id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          }
+        }
+      );
+
+      // If a chat already exists, the API sends back the chatId
+      const chatId = response.data.chatId || response.data.chat._id;
+      onClose(); // Close the modal
+      navigate(`/chats/${chatId}`); // Navigate to the chat page
+    } catch (error) {
+      console.error('Error starting chat:', error);
+      setIsStartingChat(false);
+      alert('Could not start chat. Please try again later.');
+    }
+  };
+
   return (
     <div
       className="fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center backdrop-blur-sm"
@@ -48,6 +95,11 @@ const BookModal = ({ book, onClose }) => {
                 <span className="font-medium">${book.price}</span>
               </div>
             )}
+
+            {/* Seller info */}
+            <div className="flex items-center text-gray-700 mb-4">
+              <span className="text-blue-600 font-medium">Seller: {book.createdBy}</span>
+            </div>
           </div>
           
           {book.description && (
@@ -61,7 +113,24 @@ const BookModal = ({ book, onClose }) => {
         </div>
         
         {/* Footer */}
-        <div className="bg-gray-50 px-6 py-3 flex justify-end">
+        <div className="bg-gray-50 px-6 py-3 flex justify-between">
+          {/* Only show the chat button if the book belongs to another user */}
+          {user && book.user_id && book.user_id !== user._id && (
+            <button
+              onClick={handleStartChat}
+              disabled={isStartingChat}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            >
+              {isStartingChat ? (
+                <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+              ) : (
+                <>
+                  <BsChatDots />
+                  Chat with Seller
+                </>
+              )}
+            </button>
+          )}
           <button
             onClick={onClose}
             className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-gray-800 font-medium transition-colors"
