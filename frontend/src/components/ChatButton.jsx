@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const ChatButton = ({ bookId, sellerId, sellerName }) => {
   const [loading, setLoading] = useState(false);
-  const { user, token } = useAuth();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
 
   const handleStartChat = async () => {
@@ -30,7 +30,7 @@ const ChatButton = ({ bookId, sellerId, sellerName }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${user.token}`
           }
         }
       );
@@ -78,4 +78,4 @@ const ChatButton = ({ bookId, sellerId, sellerName }) => {
   );
 };
 
-export default ChatButton; 
+export default ChatButton;

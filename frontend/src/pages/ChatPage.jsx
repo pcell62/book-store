@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const ChatPage = () => {
   const { chatId } = useParams();
-  const { user, token } = useAuth();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
   const [chat, setChat] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,7 +21,7 @@ const ChatPage = () => {
         setLoading(true);
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chats/${chatId}`, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${user.token}`
           }
         });
         setChat(response.data);
@@ -33,7 +33,7 @@ const ChatPage = () => {
           {},
           {
             headers: {
-              Authorization: `Bearer ${token}`
+              Authorization: `Bearer ${user.token}`
             }
           }
         );
@@ -44,10 +44,10 @@ const ChatPage = () => {
       }
     };
 
-    if (token && chatId) {
+    if (user && chatId) {
       fetchChat();
     }
-  }, [chatId, token]);
+  }, [chatId, user]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -58,13 +58,13 @@ const ChatPage = () => {
 
   // Poll for new messages every 10 seconds
   useEffect(() => {
-    if (!chatId || !token) return;
+    if (!chatId || !user) return;
 
     const pollInterval = setInterval(async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chats/${chatId}`, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${user.token}`
           }
         });
         
@@ -81,7 +81,7 @@ const ChatPage = () => {
             {},
             {
               headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${user.token}`
               }
             }
           );
@@ -92,7 +92,7 @@ const ChatPage = () => {
     }, 10000);
 
     return () => clearInterval(pollInterval);
-  }, [chatId, token, chat]);
+  }, [chatId, user, chat]);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -105,7 +105,7 @@ const ChatPage = () => {
         { content: message },
         {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${user.token}`
           }
         }
       );
@@ -113,7 +113,7 @@ const ChatPage = () => {
       // Refresh chat data to show the new message
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chats/${chatId}`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${user.token}`
         }
       });
       

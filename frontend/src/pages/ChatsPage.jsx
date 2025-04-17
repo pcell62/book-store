@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const ChatsPage = () => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user, token } = useAuth();
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -15,7 +15,7 @@ const ChatsPage = () => {
         setLoading(true);
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chats`, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${user.token}`
           }
         });
         setChats(response.data);
@@ -27,10 +27,10 @@ const ChatsPage = () => {
       }
     };
 
-    if (token) {
+    if (user) {
       fetchChats();
     }
-  }, [token]);
+  }, [user]);
 
   if (loading) {
     return (
