@@ -1,6 +1,6 @@
 import Chat from '../models/chatModel.js';
-import User from '../models/userModel.js';
-import Book from '../models/bookModel.js';
+import { User } from '../models/userModel.js';
+import { Book } from '../models/bookModel.js';
 
 // Get all chats for a user
 export const getUserChats = async (req, res) => {
