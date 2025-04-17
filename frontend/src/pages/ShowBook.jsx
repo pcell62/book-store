@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import ChatButton from "../components/ChatButton";
 
 const ShowBook = () => {
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const { user } = useAuthContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) {
       navigate("/");
+      return;
     }
     setLoading(true);
     axios
@@ -30,7 +33,7 @@ const ShowBook = () => {
         console.log(error);
         setLoading(false);
       });
-  }, [user]);
+  }, [user, id, navigate]);
 
   return (
     <div className="p-4 h-screen">
@@ -72,6 +75,17 @@ const ShowBook = () => {
             <span className="text-xl mr-4 text-gray-500">Last Update Time</span>
             <span>{new Date(book.updatedAt).toString()}</span>
           </div>
+          
+          {/* Only show the chat button if the book belongs to another user */}
+          {book.user && book.user._id !== user._id && (
+            <div className="my-4">
+              <ChatButton 
+                bookId={book._id} 
+                sellerId={book.user._id} 
+                sellerName={book.user.name || 'Seller'}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

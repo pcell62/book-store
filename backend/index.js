@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import booksRoute from "./routes/booksRoute.js";
 import userRoutes from "./routes/userRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 import cors from "cors";
 import dotenv from "dotenv";
 
@@ -21,6 +22,7 @@ app.get("/", (request, response) => {
 
 app.use("/books", booksRoute);
 app.use("/user", userRoutes);
+app.use("/chats", chatRoutes);
 
 console.log(process.env.mongoDBURL);
 

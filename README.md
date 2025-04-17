@@ -7,6 +7,7 @@ A modern web application that allows users to list, discover, and exchange books
 - **User Authentication**: Secure sign-up and login functionality
 - **Book Listings**: Create, read, update, and delete book listings
 - **Interest Registration**: Express interest in books listed by other users
+- **Chat Messaging**: Real-time chat between buyers and sellers
 - **Responsive Design**: Works on desktop and mobile devices
 
 ## 🛠️ Tech Stack
@@ -85,6 +86,11 @@ A modern web application that allows users to list, discover, and exchange books
 | PUT    | /api/books/:id | Update a book listing |
 | DELETE | /api/books/:id | Delete a book listing |
 | POST   | /api/interests | Express interest in a book |
+| GET    | /api/chats | Get all chats for the logged-in user |
+| GET    | /api/chats/:id | Get a specific chat conversation |
+| POST   | /api/chats | Create a new chat conversation |
+| POST   | /api/chats/:id/messages | Send a message in a chat |
+| PATCH  | /api/chats/:id/read | Mark messages as read |
 
 ## 🧩 Project Structure
 

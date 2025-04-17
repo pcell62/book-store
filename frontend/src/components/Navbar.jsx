@@ -5,6 +5,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { PiUserBold } from "react-icons/pi";
 import { BiHome, BiMenuAltRight } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
+import { BsChatDots } from "react-icons/bs";
 
 const Navbar = () => {
   const { logout } = useLogout();
@@ -47,6 +48,15 @@ const Navbar = () => {
                     <button className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-indigo-500 group-hover:from-purple-600 group-hover:to-indigo-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-indigo-200">
                       <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
                         View All Books
+                      </span>
+                    </button>
+                  </Link>
+
+                  <Link to="/chats">
+                    <button className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-500 to-cyan-600 group-hover:from-teal-500 group-hover:to-cyan-600 hover:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200">
+                      <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0 flex items-center">
+                        <BsChatDots className="mr-2" />
+                        Messages
                       </span>
                     </button>
                   </Link>
@@ -117,6 +127,17 @@ const Navbar = () => {
               >
                 <span className="relative block px-5 py-2.5 transition-all ease-in duration-200 bg-white rounded-md group-hover:bg-opacity-0 text-gray-900 group-hover:text-white">
                   View All Books
+                </span>
+              </Link>
+
+              <Link 
+                to="/chats"
+                className="block w-full text-center relative overflow-hidden p-0.5 rounded-lg group bg-gradient-to-br from-teal-500 to-cyan-600 group-hover:from-teal-500 group-hover:to-cyan-600 hover:text-white"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="relative flex items-center justify-center px-5 py-2.5 transition-all ease-in duration-200 bg-white rounded-md group-hover:bg-opacity-0 text-gray-900 group-hover:text-white">
+                  <BsChatDots className="mr-2" />
+                  Messages
                 </span>
               </Link>
 
