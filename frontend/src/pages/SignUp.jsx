@@ -1,9 +1,11 @@
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { useSignUp } from "../../hooks/useSignUp";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { BiEnvelope, BiLockAlt, BiShow, BiHide, BiUser } from "react-icons/bi";
+import { BiBookAlt } from "react-icons/bi";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -29,81 +31,139 @@ const SignUp = () => {
     await Signup(name, email, password);
   };
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
-      {loading && <Spinner />}
-      <form className="w-64" onSubmit={handleSignUp}>
-        <div className="mb-4">
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-xl transform transition-all animate-fadeIn">
+        <div className="text-center">
+          <div className="flex justify-center">
+            <BiBookAlt className="h-14 w-14 text-indigo-600" />
+          </div>
+          <h2 className="mt-4 text-3xl font-extrabold text-gray-900">
+            Create your account
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Join our community and start your book collection
+          </p>
         </div>
-        <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Password
-          </label>
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+        
+        <form className="mt-8 space-y-6" onSubmit={handleSignUp}>
+          <div className="rounded-md -space-y-px">
+            <div className="mb-5">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <BiUser className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500"
+                  placeholder="Your full name"
+                />
+              </div>
+            </div>
+            
+            <div className="mb-5">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                Email address
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <BiEnvelope className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500"
+                  placeholder="Email address"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <BiLockAlt className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500"
+                  placeholder="Create a strong password"
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                >
+                  {showPassword ? (
+                    <BiHide className="h-5 w-5 text-gray-500 hover:text-gray-700" />
+                  ) : (
+                    <BiShow className="h-5 w-5 text-gray-500 hover:text-gray-700" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {error && (
+            <div className="rounded-md bg-red-50 p-4 animate-fadeIn">
+              <div className="flex">
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-800">
+                    There was an error creating your account
+                  </h3>
+                  <div className="mt-2 text-sm text-red-700">
+                    <p>{error}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div>
             <button
-              type="button"
-              className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500"
-              onClick={togglePasswordVisibility}
+              type="submit"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 font-medium text-md transform transition-all hover:scale-[1.01] shadow-md"
             >
-              {showPassword ? "Hide" : "Show"}
+              Create Account
             </button>
           </div>
-        </div>
-        <button
-          disabled={loading}
-          type="submit"
-          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Sign Up
-        </button>
-        {error && (
-          <div
-            className="bg-red-100 mt-2 border border-red-400 text-red-700 px-4 py-2 rounded relative"
-            role="alert"
-          >
-            <span className="block sm:inline">{error}</span>
+          
+          <div className="text-sm text-center mt-4">
+            <p className="text-gray-600">
+              Already have an account?{" "}
+              <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Sign in here
+              </Link>
+            </p>
           </div>
-        )}
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

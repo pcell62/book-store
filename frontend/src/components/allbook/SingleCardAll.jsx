@@ -2,12 +2,13 @@ import { Link } from "react-router-dom";
 import { PiBookOpenTextLight } from "react-icons/pi";
 import { BiUserCircle, BiShow, BiSolidHappy } from "react-icons/bi";
 import { AiOutlineEdit } from "react-icons/ai";
-import { BsInfoCircle } from "react-icons/bs";
+import { BsInfoCircle, BsPeopleFill } from "react-icons/bs";
 import {
   MdOutlineDelete,
   MdOutlineNumbers,
   MdOutlineUmbrella,
 } from "react-icons/md";
+import { FaUser, FaHeart } from "react-icons/fa";
 import { useState } from "react";
 import BookModal from "../home/BookModal";
 
@@ -15,45 +16,64 @@ const BookSingleCardAll = ({ book }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div
-      className="border border-black rounded-lg p-3 bg-cover m-4"
-      style={{
-        backgroundImage:
-          "url('https://th-thumbnailer.cdn-si-edu.com/sWf0xF1il7OWYO8j-PGqwBvxTAE=/1000x750/filters:no_upscale():focal(2550x1724:2551x1725)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/9a/d7/9ad71c28-a69d-4bc0-b03d-37160317bb32/gettyimages-577674005.jpg')",
-      }}
-    >
-      <div className="border-2 border-gray-500 rounded-lg px-4 py-2 m-4 relative hover:shadow-xl bg-white">
-        <h2 className="absolute top-1 right-2 px-4 py-1 bg-red-300 rounded-lg">
-          {book.publishYear}
-        </h2>
-        <div className="flex justify-start items-center gap-x-2">
-          <PiBookOpenTextLight className="text-red-300 text-2xl" />
-          <h2 className="my-1">{book.title}</h2>
+    <div className="transform transition duration-300 hover:scale-105 hover:shadow-xl">
+      <div className="relative bg-white m-4 rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col h-full">
+        {/* Cover image overlay with gradient */}
+        <div 
+          className="h-40 bg-cover bg-center relative" 
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1456513080867-f24f824f85e3?q=80&w=2946&auto=format&fit=crop')",
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-tr from-emerald-900/80 to-blue-500/40"></div>
+          <div className="absolute top-2 right-2 bg-emerald-600 text-white font-bold py-1 px-3 rounded-lg shadow-lg">
+            {book.publishYear}
+          </div>
         </div>
-        <div className="flex justify-start items-center gap-x-2">
-          <BiUserCircle className="text-red-300 text-2xl" />
-          <h2 className="my-1">Author: {book.author}</h2>
-        </div>
-        <div className="flex justify-start items-center gap-x-2">
-          <BiUserCircle className="text-blue-300 text-2xl" />
-          <h2 className="my-1 space-y-2">Entry Created By: {book.createdBy}</h2>
-        </div>
-        <div className="flex justify-start items-center gap-x-2">
-          <MdOutlineNumbers className="text-red-300 text-2xl" />
-          <h2 className="my-1">
-            Number Of people Interested: {book.interestedPeople.length}
-          </h2>
-        </div>
-        <div className="flex  items-center justify-around mt-4 p-4">
-          <BiShow
-            className="text-3xl text-blue-800 hover:text-black cursor-pointer mr-2"
-            onClick={() => setShowModal(true)}
-          />
 
-          <Link to={`/books/interest/${book._id}`}>
-            <BiSolidHappy className="text-2xl text-red-600 hover:text-black" />
-          </Link>
+        {/* Book content */}
+        <div className="p-5 flex-grow flex flex-col">
+          <h2 className="text-xl font-bold text-gray-800 mb-2 line-clamp-1">{book.title}</h2>
+          
+          <div className="flex items-center gap-x-2 mt-1">
+            <BiUserCircle className="text-emerald-600 text-xl" />
+            <p className="text-gray-600 line-clamp-1">{book.author}</p>
+          </div>
+          
+          <div className="mt-3 flex items-start gap-x-2">
+            <FaUser className="text-blue-600 text-lg mt-1" />
+            <div>
+              <p className="text-gray-500 text-sm">Created By</p>
+              <span className="text-blue-600 font-medium">{book.createdBy}</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-x-2 mt-3 text-gray-700">
+            <BsPeopleFill className="text-emerald-500 text-lg" />
+            <p className="text-sm">
+              <span className="font-semibold">{book.interestedPeople.length}</span> {book.interestedPeople.length === 1 ? 'person' : 'people'} interested
+            </p>
+          </div>
+          
+          <div className="mt-auto pt-4 flex justify-between items-center border-t border-gray-100">
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors duration-300"
+            >
+              <BiShow className="text-xl" />
+              <span className="text-sm">View</span>
+            </button>
+            
+            <Link 
+              to={`/books/interest/${book._id}`}
+              className="flex items-center gap-1 text-rose-500 hover:text-rose-700 transition-colors duration-300 group"
+            >
+              <FaHeart className="text-lg group-hover:scale-110 transition-transform" />
+              <span className="text-sm">Interested</span>
+            </Link>
+          </div>
         </div>
+        
         {showModal && (
           <BookModal book={book} onClose={() => setShowModal(false)} />
         )}

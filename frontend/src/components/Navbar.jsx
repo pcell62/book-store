@@ -1,145 +1,158 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLogout } from "../../hooks/useLogout";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { PiUserBold } from "react-icons/pi";
-import { BiHome } from "react-icons/bi";
+import { BiHome, BiMenuAltRight } from "react-icons/bi";
+import { IoMdClose } from "react-icons/io";
 
 const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const handleClick = () => {
     logout();
   };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <div className="flex flex-col md:flex-row p-4 shadow-sm items-center justify-between border-b rounded-br-lg rounded-bl-lg sticky  top-0 backdrop-blur bg-black/10 z-10">
-      <Link to="/" className="flex items-center">
-        <BiHome className="text-5xl" />
-        <div className="text-4xl font-bold">Book Store</div>
-      </Link>
-      <div className="flex items-center mt-4 md:mt-0">
-        {user && (
-          <div className="space-x-4 flex items-center">
-            <div className="flex items-center  p-3">
-              <PiUserBold className="text-3xl text-blue-600" />
-              <span className="text-lg font-bold text-blue-600">
-                {user.name}
+    <div className="sticky top-0 z-50">
+      <div className="bg-white/90 backdrop-blur-md shadow-lg rounded-b-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            {/* Logo and brand name */}
+            <Link to="/" className="flex items-center space-x-2">
+              <BiHome className="text-4xl text-indigo-600" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                Book Store
               </span>
+            </Link>
+
+            {/* Desktop menu */}
+            <div className="hidden md:flex items-center space-x-4">
+              {user ? (
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center p-2 bg-indigo-50 rounded-full">
+                    <PiUserBold className="text-xl text-indigo-600 mr-2" />
+                    <span className="text-md font-semibold text-indigo-700">
+                      {user.name}
+                    </span>
+                  </div>
+
+                  <Link to="/allbooks">
+                    <button className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-indigo-500 group-hover:from-purple-600 group-hover:to-indigo-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-indigo-200">
+                      <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                        View All Books
+                      </span>
+                    </button>
+                  </Link>
+
+                  <button
+                    onClick={handleClick}
+                    className="bg-gradient-to-r from-rose-500 to-red-500 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-200 hover:scale-105"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="flex space-x-3">
+                  <Link 
+                    to="/login"
+                    className="relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out rounded-full shadow-md group"
+                  >
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-indigo-500 to-purple-500"></span>
+                    <span className="absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-purple-600 rounded-full opacity-30 group-hover:rotate-90 ease"></span>
+                    <span className="relative text-white">Login</span>
+                  </Link>
+
+                  <Link 
+                    to="/signup"
+                    className="relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group"
+                  >
+                    <span className="absolute inset-0 w-full h-full bg-white"></span>
+                    <span className="absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-indigo-500 rounded-full opacity-30 group-hover:rotate-90 ease"></span>
+                    <span className="relative text-indigo-600 font-semibold">Sign Up</span>
+                  </Link>
+                </div>
+              )}
             </div>
-            <Link to="/allbooks">
-              <button className="relative border hover:border-sky-600 duration-500 group cursor-pointer text-sky-50 overflow-hidden h-14 md:w-56 rounded-full bg-pink-800 p-2 flex justify-center items-center font-extrabold">
-                <div className="absolute z-10 w-48 h-48 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-pink-900 delay-150 group-hover:delay-75"></div>
-                <div className="absolute z-10 w-40 h-40 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-pink-800 delay-150 group-hover:delay-100"></div>
-                <div className="absolute z-10 w-32 h-32 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-pink-700 delay-150 group-hover:delay-150"></div>
-                <div className="absolute z-10 w-24 h-24 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-pink-600 delay-150 group-hover:delay-200"></div>
-                <div className="absolute z-10 w-16 h-16 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-pink-500 delay-150 group-hover:delay-300"></div>
-                <p className="z-10">View All Books</p>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button 
+                onClick={toggleMenu}
+                className="text-gray-700 hover:text-indigo-600 focus:outline-none"
+              >
+                {isMenuOpen ? (
+                  <IoMdClose className="w-6 h-6" />
+                ) : (
+                  <BiMenuAltRight className="w-6 h-6" />
+                )}
               </button>
-            </Link>
-            <button
-              onClick={handleClick}
-              className="group flex items-center justify-start w-11 h-11 bg-red-600 rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:w-32 hover:rounded-lg active:translate-x-1 active:translate-y-1"
-            >
-              <div className="flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3">
-                <svg className="w-4 h-4" viewBox="0 0 512 512" fill="white">
-                  <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
-                </svg>
-              </div>
-              <div className="absolute right-5 transform translate-x-full opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-                Logout
-              </div>
-            </button>
+            </div>
           </div>
-        )}
-        {!user && (
-          <div className="flex space-x-4">
-            <Link to="/login">
-              <div className="w-full  flex items-center justify-center cursor-pointer">
-                <div className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold shadow text-indigo-600 transition-all duration-150 ease-in-out rounded hover:pl-10 hover:pr-6 bg-gray-50 dark:bg-gray-700 dark:text-white dark:hover:text-gray-200 dark:shadow-none group">
-                  <span className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-indigo-600 group-hover:h-full"></span>
-                  <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      fill="none"
-                      className="w-5 h-5 text-green-400"
-                    >
-                      <path
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        strokeWidth="2"
-                        strokeLinejoin="round"
-                        strokeLinecap="round"
-                      ></path>
-                    </svg>
-                  </span>
-                  <span className="absolute left-0 pl-2.5 -translate-x-12 group-hover:translate-x-0 ease-out duration-200">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      fill="none"
-                      className="w-5 h-5 text-green-400"
-                    >
-                      <path
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        strokeWidth="2"
-                        strokeLinejoin="round"
-                        strokeLinecap="round"
-                      ></path>
-                    </svg>
-                  </span>
-                  <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white dark:group-hover:text-gray-200">
-                    Login
-                  </span>
-                </div>
-              </div>
-            </Link>
-            <Link to="/signup">
-              <div className="w-full  flex items-center justify-center cursor-pointer">
-                <div className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold shadow text-indigo-600 transition-all duration-150 ease-in-out rounded hover:pl-10 hover:pr-6 bg-gray-50 dark:bg-gray-700 dark:text-white dark:hover:text-gray-200 dark:shadow-none group">
-                  <span className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-indigo-600 group-hover:h-full"></span>
-                  <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      fill="none"
-                      className="w-5 h-5 text-green-400"
-                    >
-                      <path
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        strokeWidth="2"
-                        strokeLinejoin="round"
-                        strokeLinecap="round"
-                      ></path>
-                    </svg>
-                  </span>
-                  <span className="absolute left-0 pl-2.5 -translate-x-12 group-hover:translate-x-0 ease-out duration-200">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      fill="none"
-                      className="w-5 h-5 text-green-400"
-                    >
-                      <path
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        strokeWidth="2"
-                        strokeLinejoin="round"
-                        strokeLinecap="round"
-                      ></path>
-                    </svg>
-                  </span>
-                  <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white dark:group-hover:text-gray-200">
-                    SignUp
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </div>
-        )}
+        </div>
       </div>
+
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white shadow-lg rounded-b-lg py-3 px-4">
+          {user ? (
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center p-2 bg-indigo-50 rounded-lg">
+                <PiUserBold className="text-xl text-indigo-600 mr-2" />
+                <span className="text-md font-semibold text-indigo-700">
+                  {user.name}
+                </span>
+              </div>
+
+              <Link 
+                to="/allbooks"
+                className="block w-full text-center relative overflow-hidden p-0.5 rounded-lg group bg-gradient-to-br from-purple-600 to-indigo-500 group-hover:from-purple-600 group-hover:to-indigo-500 hover:text-white"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="relative block px-5 py-2.5 transition-all ease-in duration-200 bg-white rounded-md group-hover:bg-opacity-0 text-gray-900 group-hover:text-white">
+                  View All Books
+                </span>
+              </Link>
+
+              <button
+                onClick={() => {
+                  handleClick();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full bg-gradient-to-r from-rose-500 to-red-500 text-white px-4 py-2 rounded-lg"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col space-y-3">
+              <Link 
+                to="/login"
+                className="block w-full text-center relative overflow-hidden p-0.5 rounded-lg group bg-gradient-to-br from-purple-600 to-indigo-500 group-hover:from-purple-600 group-hover:to-indigo-500 hover:text-white"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="relative block px-5 py-2.5 transition-all ease-in duration-200 bg-white rounded-md group-hover:bg-opacity-0 text-gray-900 group-hover:text-white">
+                  Login
+                </span>
+              </Link>
+
+              <Link 
+                to="/signup"
+                className="block w-full text-center bg-white border border-indigo-500 text-indigo-600 px-4 py-2 rounded-lg"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
